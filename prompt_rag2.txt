@@ -1,0 +1,116 @@
+Desenvolva toda a lógica necessária para meu como documento "termo_reducao_carencia.py", para isso considere a imagem do fluxo anexado (carencia.png), validações e lógicas já desenvolvidas em outros documentos (os quais também estão anexados aqui), além disso, considere alguns detalhes para validação conforme segue abaixo:
+
+Para realizar a validação, será necessário:
+ Extrair da carta de permanência e da carteirinha as seguintes informações:
+Operadora;
+Produto;
+Segmentação;
+Acomodação;
+Abrangência;
+Vigência.
+Verificar as características do plano que o proponente quer migrar (Dados Oirundos do Acelera)
+Operadora; - UNIMED
+Produto:
+Chave payload - "plano_destino"
+Lista de valores possíveis:
+"PMECPENF" - PME COMPACTO ENF;
+"PMEEFAP" - PME EFETIVO APTO; 
+"PMECPAP" - PME COMPLETO APTO;
+"PMESUPAP" - PME SUPERIOR APTO;
+"PMESSSAP" - PME SÊNIOR APTO;
+"PMECPENFCP" - PME COMPACTO ENF CP;
+"PMEEFAPCP" - PME EFETIVO APTO CP;
+"PMECPAPCP" - PME COMPLETO APTO CP;
+"PMESUPAPCP" - PME SUPERIOR APTO CP;
+"PMESSSAPCP" - PME SÊNIOR APTO CP;
+"PMESUPPAP" - PME SUPERIOR PLUS APTO;
+"PMESUPPCP2" - PME SUPERIOR PLUS APTO CP;
+"NESPI" - NOVO ESSENCIAL PME SP I;
+"NESPII" - NOVO ESSENCIAL PME SP II;
+"NESPIII" - NOVO ESSENCIAL PME SP III;
+"NESPIV" - NOVO ESSENCIAL PME SP IV;
+"NEDFI" - ESSENCIAL PME DF I;
+"NEDFII" - ESSENCIAL PME DF II;
+"NEDFIII" - ESSENCIAL PME DF III;
+"NEDFIV" - ESSENCIAL PME DF IV;
+"EPBAI" - ESSENCIAL PME SALVADOR I;
+"EPBAII" - ESSENCIAL PME SALVADOR II;
+"EPBAIII" - ESSENCIAL PME SALVADOR III;
+"EPBAIV" - ESSENCIAL PME SALVADOR IV.
+Segmentação:
+Chave payload: "segmentacao"
+Lista de valores possíveis:
+"AHCO" - Amb. Hosp. Com Obstetrícia;
+“A" - Ambulatorial;
+“HSO" - Hospitalar Sem Obstetrícia;
+“HCO" - Hosp. com Obstetrícia;
+“AHSO" - Amb. Hosp. Sem Obstetrícia;
+“O" - Odontológico;
+“R" - Referência;
+“AHO" - Amb. Hosp. Odontológico
+Acomodação:
+Chave payload: "acomodacao"
+Lista de valores possíveis:
+"I" - Individual;
+"C" - Coletiva;
+"X" - Especial"
+Abrangência:
+Chave payload: "abrangencia"
+Lista de valores possíveis:
+"N" - Nacional;
+"GM" - Grupo de municípios;
+"GE" - Grupo de estados;
+"M - Municipal;
+"E" - Estadual;
+"I" - Internacional;
+"R" - Regional;
+"X" - Especial
+Para saber se o plano anterior é oriundo da unimed, deve ser verificada a chave do payload "oriundo_unimed"
+Lista de valores
+"0" - Não;
+"1" -'Sim'
+Para saber se deverá deverá segui o fluxo de termo corporativo deverá ser verificada a chave "template_termo_reducao_carencia"
+Lista de valores
+"/termo_carencia_ESSENCIAL_DF";
+Planos Relacionados: S80 – Amil, Efetivo DF – Bradesco e Direto – SulAmérica.
+"/termo_carencia_ESSENCIAL_SALVADOR";
+Planos Relacionados: Efetivo Salvador – Bradesco, Nosso Plano Salvador – Hapvida e Direto Salvador – SulAmérica.
+"/termo_carencia_ESSENCIAL_SP";
+Planos Relacionados: S60 SP – Amil, Smart 200 UP SP – GNDI e Direto Branco – SulAmérica.
+"/termo_carencia_CORPORATIVO";
+Planos Equivalentes Relacionados aos Planos Superior ou Superior Plus: 
+Allianz – Superieur e Completo Apto;
+Care Plus – Especial III; Soho 30; 
+Amil – Amil 700 QP, Amil Lincx LT3, Amil S750, Amil S1500, Amil S580 e One 1000; 
+Bradesco – Nacional Quarto (TNQ) e Nacional II (TNNI, TNMI e TNMM), TRQN, TR2N, TR3N, TNQN, TNM2 e TNM3;
+Mediservice – Bronze Apto e Prata Apto; 
+Marítima - Pleno Apto;
+GNDI – Premium 900;
+Sul América – Especial 100, Especial RC e Especial Mais; 
+Omint – SC1 e SC2; 
+Porto Seguro – Ouro Apto (Ouro Mais Q e Ouro Max Q); 
+Sompo Seguros – Absoluto Apto. 
+Planos Equivalentes Relacionados ao Plano Sênior:
+Allianz – Excellence e Exclusivo; 
+Care Plus – Master I e Soho 160; 
+Amil – One Back T2, T3, T4 e T5, Lincx T4, One S2500, One S6500 e One LT4; 
+Bradesco – Nacional Plus (TNP), Premium (TNC 6 e 8 e TNPX), TPN4, TPN6 e TPN8;
+Mediservice – Ouro Apto; 
+Marítima – Sênior Apto; 
+GNDI – Infinity; 
+Sul América – Executivo e Prestige; 
+Omint – C16, C17, C19, C20, C21, C22, C23, C39, C40, C41, C42 e C43; 
+Porto Seguro – Diamante Mais Apto; 
+Sompo Seguros – Supremo Apto
+
+Critério de Aceite do Requisito
+
+CA.1 - Proposta com 10 a 29 vidas
+Caso a proposta tenha de 10 a 29 vidas, deverá ser retornado o código CP.
+
+CA.2 - Proposta com 30 a 99 vidas
+Caso a proposta tenha de 30 a 99 vidas, ela será isenta de carência, não sendo necessário nenhum retorno.
+
+CA.3 - Proposta com 02 a 09 vidas
+Caso a proposta tenha de 02 a 09 vidas, deverá ser verificado o Código a ser aplicado para redução de carência, podendo ser TRC ou TRC1 ou TRC2 de acordo com as regras descritas no fluxo anexo.
+
